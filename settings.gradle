@@ -1,0 +1,5 @@
+rootProject.name = "TTSTool"
+include ':app'
+include ':lib'
+include ':lib-v7a'
+include ':lib-v8a'
