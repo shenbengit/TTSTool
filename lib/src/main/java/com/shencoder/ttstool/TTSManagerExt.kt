@@ -12,9 +12,13 @@ import android.content.Context
 
 /**
  * 必须在主进程初始化
+ *
+ * @param context
+ * @param appId
+ * @param isFemaleVoice 是否是女声，true:女声，false:男声
  */
-fun initTTS(context: Context, appId: String) {
-    TTSManager.getInstance().init(context, appId)
+fun initTTS(context: Context, appId: String, isFemaleVoice: Boolean = true) {
+    TTSManager.getInstance().init(context, appId, isFemaleVoice)
 }
 
 fun startSpeaking(text: String) {

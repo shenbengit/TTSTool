@@ -22,10 +22,25 @@ class TTSManager private constructor() {
 
     companion object {
         private const val TAG = "TTSTool"
+
+        /**
+         * 男声
+         */
+        private const val VOICE_MALE = "xiaofeng"
+
+        /**
+         * 女声
+         */
+        private const val VOICE_FEMALE = "xiaoyan"
+
         fun getInstance() = SingleHolder.instance
     }
 
-    private var mSpeechSynthesizer: SpeechSynthesizer? = null
+    private lateinit var mSpeechSynthesizer: SpeechSynthesizer
+
+    /**
+     * 是否初始化成功
+     */
     private var isInitSuccess = false
     private var mSpeechStatusListener: SpeechStatusListener? = null
 
@@ -62,9 +77,12 @@ class TTSManager private constructor() {
 
     /**
      * 必须在主进程初始化
+     * @param context
+     * @param appId
+     * @param isFemaleVoice 是否是女声，true:女声，false:男声
      */
-    fun init(context: Context, appId: String) {
-        Setting.setLogLevel(Setting.LOG_LEVEL.normal)
+    fun init(context: Context, appId: String, isFemaleVoice: Boolean = true) {
+        Setting.setLogLevel(Setting.LOG_LEVEL.none)
         SpeechUtility.createUtility(
             context,
             "${SpeechConstant.APPID}=${appId},${SpeechConstant.ENGINE_MODE}=${SpeechConstant.MODE_AUTO}"
@@ -84,8 +102,8 @@ class TTSManager private constructor() {
             setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true")
             setParameter(SpeechConstant.STREAM_TYPE, "3")
             // 设置发音人
-            setParameter(SpeechConstant.VOICE_NAME, "xiaoyan")
-            setParameter(ResourceUtil.TTS_RES_PATH, getResPath(context))
+            setParameter(SpeechConstant.VOICE_NAME, if (isFemaleVoice) VOICE_FEMALE else VOICE_MALE)
+            setParameter(ResourceUtil.TTS_RES_PATH, getResPath(context, isFemaleVoice))
         }
     }
 
@@ -93,18 +111,28 @@ class TTSManager private constructor() {
      * 可连续播放
      */
     fun startSpeaking(text: String) {
-        mSpeechSynthesizer?.startSpeaking(text, mSynthesizerListener)
+        if (isInitSuccess) {
+            mSpeechSynthesizer.startSpeaking(text, mSynthesizerListener)
+        }
     }
 
     fun stopSpeaking() {
-        mSpeechSynthesizer?.stopSpeaking()
+        if (isInitSuccess) {
+            mSpeechSynthesizer.stopSpeaking()
+        }
     }
 
-    fun isSpeaking() = mSpeechSynthesizer?.isSpeaking ?: false
+    fun isSpeaking() = if (isInitSuccess) {
+        mSpeechSynthesizer.isSpeaking
+    } else {
+        false
+    }
 
     fun destroy() {
-        stopSpeaking()
-        mSpeechSynthesizer?.destroy()
+        if (isInitSuccess) {
+            stopSpeaking()
+            mSpeechSynthesizer.destroy()
+        }
     }
 
     fun setSpeechStatusListener(listener: SpeechStatusListener) {
@@ -114,25 +142,23 @@ class TTSManager private constructor() {
     /**
      * 发音文件资源
      */
-    private fun getResPath(context: Context): String {
+    private fun getResPath(context: Context, isFemaleVoice: Boolean): String {
         val builder = StringBuilder()
-        // 合成通用资源
         builder.append(
             ResourceUtil.generateResourcePath(
                 context,
                 ResourceUtil.RESOURCE_TYPE.assets,
                 "tts/common.jet"
             )
-        )
-        builder.append(";")
-        // 发音人资源
-        builder.append(
-            ResourceUtil.generateResourcePath(
-                context,
-                ResourceUtil.RESOURCE_TYPE.assets,
-                "tts/xiaoyan.jet"
-            )
-        )
+        )//合成通用资源
+            .append(";")
+            .append(
+                ResourceUtil.generateResourcePath(
+                    context,
+                    ResourceUtil.RESOURCE_TYPE.assets,
+                    "tts/${if (isFemaleVoice) VOICE_FEMALE else VOICE_MALE}.jet"
+                )
+            )//发音人资源
         return builder.toString()
     }
 
