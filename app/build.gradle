@@ -19,7 +19,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,4 +57,7 @@ dependencies {
     implementation project(path: ':lib')
     implementation project(path: ':lib-v7a')
     implementation project(path: ':lib-v8a')
+//    implementation 'com.github.shenbengit.TTSTool:lib:1.0.1'
+//    implementation 'com.github.shenbengit.TTSTool:lib-v7a:1.0.1'
+//    implementation 'com.github.shenbengit.TTSTool:lib-v8a:1.0.1'
 }
