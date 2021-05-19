@@ -1,5 +1,5 @@
 # TTSTool
-基于科大讯飞离线语音SDK封装快速实现TTS，支持设置男女声
+基于[讯飞离线语音SDK](https://www.xfyun.cn/doc/tts/online_tts/Android-SDK.html)封装快速实现TTS，支持设置男女声
 ## 引入
 
 ### 将JitPack存储库添加到您的项目中(项目根目录下build.gradle文件)
