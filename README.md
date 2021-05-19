@@ -23,7 +23,8 @@ dependencies {
     implementation 'com.github.shenbengit.TTSTool:lib-v8a:Tag'
 }
 ```
-### 需要使用的用户权限(AndroidManifest.xml中已添加)
+### 需要使用的用户权限
+> AndroidManifest.xml中已添加，危险权限可能要自行处理。
 ```xml
 <!--连接网络权限，用于执行云端语音能力 -->
 <uses-permission android:name="android.permission.INTERNET"/>
