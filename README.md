@@ -14,13 +14,19 @@ allprojects {
 ### 添加依赖
 [![](https://jitpack.io/v/shenbengit/TTSTool.svg)](https://jitpack.io/#shenbengit/TTSTool)
 ```gradle
+android {
+    ...
+    defaultConfig {
+        ...
+        ndk {
+            // 设置支持的SO库架构，仅支持armeabi-v7a、arm64-v8a，若想减小APK体积，可只引用对应的SO库架构
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+}
+
 dependencies {
-    //必选(armeabi-v7a|arm64-v8a)至少添加一个
-    implementation 'com.github.shenbengit.TTSTool:lib:Tag'
-    //可选，支持armeabi-v7
-    implementation 'com.github.shenbengit.TTSTool:lib-v7a:Tag'
-    //可选，支持arm64-v8a
-    implementation 'com.github.shenbengit.TTSTool:lib-v8a:Tag'
+    implementation 'com.github.shenbengit:TTSTool:Tag'
 }
 ```
 ### 需要使用的用户权限
