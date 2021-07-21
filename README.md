@@ -58,7 +58,7 @@ dependencies {
 <!--如需使用人脸识别，还要添加：摄相头权限，拍照需要用到 -->
 <uses-permission android:name="android.permission.CAMERA" />
 ```
-## 使用事例
+## 使用示例
 
 ```kotlin
 /**
@@ -66,18 +66,19 @@ dependencies {
   * @param context
   * @param appId 
   * @param isFemaleVoice 是否是女声，true:女声，false:男声
+  * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
   */
-TTSManager.getInstance().init(context, "appId", true)
+TTSManager.getInstance().init(context: Context, appId: String, isFemaleVoice: Boolean = true, listener: InitListener? = null)
 
 /**
   * 开始合成
   */
-TTSManager.getInstance().startSpeaking(text)
+TTSManager.getInstance().startSpeaking(text: String)
 
 /**
   * 停止合成
   */
-TTSManager.getInstance().stopSpeaking(text)
+TTSManager.getInstance().stopSpeaking()
 
 /**
   * 是否正在合成
@@ -88,6 +89,11 @@ TTSManager.getInstance().isSpeaking()
   * 销毁
   */
 TTSManager.getInstance().destroy()
+
+/**
+  * 监听回调
+  */
+TTSManager.getInstance().setSpeechStatusListener(listener: SpeechStatusListener?)
 
 ```
 
@@ -100,17 +106,17 @@ TTSManager.getInstance().destroy()
   * @param appId 
   * @param isFemaleVoice 是否是女声，true:女声，false:男声
   */
-initTTS(context, "appId", true)
+initTTS(context: Context, appId: String, isFemaleVoice: Boolean = true, listener: InitListener? = null)
 
 /**
   * 开始合成
   */
-startSpeaking(text)
+startSpeaking(text: String)
 
 /**
   * 停止合成
   */
-stopSpeaking(text)
+stopSpeaking()
 
 /**
   * 是否正在合成
@@ -121,6 +127,12 @@ isSpeaking()
   * 销毁
   */
 destroyTTS()
+
+/**
+  * 监听回调
+  */
+setSpeechStatusListener(listener: TTSManager.SpeechStatusListener?)
+
 ```
 
 ## proguard-rules.pro
