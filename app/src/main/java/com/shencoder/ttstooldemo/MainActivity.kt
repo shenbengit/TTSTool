@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initTTS(this, "97939e0c", true)
+        initTTS(this, "appId", true)
         findViewById<Button>(R.id.btnTTS).setOnClickListener {
             startActivity(Intent(this,JavaActivity::class.java))
         }
