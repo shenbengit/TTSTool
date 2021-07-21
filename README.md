@@ -20,7 +20,7 @@ android {
         ...
         ndk {
             // 设置支持的SO库架构，仅支持armeabi-v7a、arm64-v8a，若想减小APK体积，可只引用对应的SO库架构
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a'//, 'arm64-v8a'
         }
     }
 }
