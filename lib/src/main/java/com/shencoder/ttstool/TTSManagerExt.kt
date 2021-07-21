@@ -1,6 +1,8 @@
 package com.shencoder.ttstool
 
 import android.content.Context
+import com.iflytek.cloud.ErrorCode
+import com.iflytek.cloud.InitListener
 
 /**
  * TTSManager 扩展方法
@@ -16,9 +18,20 @@ import android.content.Context
  * @param context
  * @param appId
  * @param isFemaleVoice 是否是女声，true:女声，false:男声
+ * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
  */
-fun initTTS(context: Context, appId: String, isFemaleVoice: Boolean = true) {
-    TTSManager.getInstance().init(context, appId, isFemaleVoice)
+@JvmOverloads
+fun initTTS(
+    context: Context,
+    appId: String,
+    isFemaleVoice: Boolean = true,
+    listener: InitListener? = null
+) {
+    TTSManager.getInstance().init(context, appId, isFemaleVoice, listener)
+}
+
+fun setSpeechStatusListener(listener: TTSManager.SpeechStatusListener?) {
+    TTSManager.getInstance().setSpeechStatusListener(listener)
 }
 
 fun startSpeaking(text: String) {

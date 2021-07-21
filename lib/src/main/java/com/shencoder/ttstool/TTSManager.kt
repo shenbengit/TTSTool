@@ -2,7 +2,6 @@ package com.shencoder.ttstool
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.iflytek.cloud.*
 import com.iflytek.cloud.util.ResourceUtil
 import java.lang.StringBuilder
@@ -33,18 +32,16 @@ class TTSManager private constructor() {
          */
         private const val VOICE_FEMALE = "xiaoyan"
 
+        @JvmStatic
         fun getInstance() = SingleHolder.instance
     }
 
     private lateinit var mSpeechSynthesizer: SpeechSynthesizer
 
-    /**
-     * 是否初始化成功
-     */
-    private var isInitSuccess = false
     private var mSpeechStatusListener: SpeechStatusListener? = null
 
     private val mSynthesizerListener = object : SynthesizerListener {
+
         override fun onBufferProgress(p0: Int, p1: Int, p2: Int, p3: String?) {
 
         }
@@ -80,18 +77,22 @@ class TTSManager private constructor() {
      * @param context
      * @param appId
      * @param isFemaleVoice 是否是女声，true:女声，false:男声
+     * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
      */
-    fun init(context: Context, appId: String, isFemaleVoice: Boolean = true) {
+    @JvmOverloads
+    fun init(
+        context: Context,
+        appId: String,
+        isFemaleVoice: Boolean = true,
+        listener: InitListener? = null
+    ) {
         Setting.setLogLevel(Setting.LOG_LEVEL.none)
         SpeechUtility.createUtility(
             context,
             "${SpeechConstant.APPID}=${appId},${SpeechConstant.ENGINE_MODE}=${SpeechConstant.MODE_AUTO}"
         )
         mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(context) { code ->
-            isInitSuccess = code == ErrorCode.SUCCESS
-            if (isInitSuccess.not()) {
-                Log.w(TAG, "科大讯飞语音合成初始化识别，code: $code")
-            }
+            listener?.onInit(code)
         }.apply {
             setParameter(
                 SpeechConstant.ENGINE_TYPE,
@@ -111,31 +112,22 @@ class TTSManager private constructor() {
      * 可连续播放
      */
     fun startSpeaking(text: String) {
-        if (isInitSuccess) {
-            mSpeechSynthesizer.startSpeaking(text, mSynthesizerListener)
-        }
+        mSpeechSynthesizer.startSpeaking(text, mSynthesizerListener)
     }
 
     fun stopSpeaking() {
-        if (isInitSuccess) {
-            mSpeechSynthesizer.stopSpeaking()
-        }
+        mSpeechSynthesizer.stopSpeaking()
     }
 
-    fun isSpeaking() = if (isInitSuccess) {
-        mSpeechSynthesizer.isSpeaking
-    } else {
-        false
-    }
+    fun isSpeaking() = mSpeechSynthesizer.isSpeaking
+
 
     fun destroy() {
-        if (isInitSuccess) {
-            stopSpeaking()
-            mSpeechSynthesizer.destroy()
-        }
+        stopSpeaking()
+        mSpeechSynthesizer.destroy()
     }
 
-    fun setSpeechStatusListener(listener: SpeechStatusListener) {
+    fun setSpeechStatusListener(listener: SpeechStatusListener?) {
         mSpeechStatusListener = listener
     }
 
