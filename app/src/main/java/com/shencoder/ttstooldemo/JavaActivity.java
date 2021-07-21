@@ -3,11 +3,7 @@ package com.shencoder.ttstooldemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
-import com.iflytek.cloud.InitListener;
-import com.shencoder.ttstool.TTSManager;
 import com.shencoder.ttstool.TTSManagerExtKt;
 
 public class JavaActivity extends AppCompatActivity {
