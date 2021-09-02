@@ -16,7 +16,6 @@ import com.iflytek.cloud.InitListener
  * 必须在主进程初始化
  *
  * @param context
- * @param appId
  * @param isFemaleVoice 是否是女声，true:女声，false:男声
  * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
  */
