@@ -1,5 +1,6 @@
 # TTSTool
-基于[讯飞离线语音SDK](https://www.xfyun.cn/doc/tts/online_tts/Android-SDK.html)封装快速实现TTS，支持设置男女声
+基于[讯飞离线语音SDK](https://www.xfyun.cn/doc/tts/online_tts/Android-SDK.html)封装快速实现TTS，支持设置男女声。
+由于科达讯飞离线语音体验版有有效期问题，降低了SDK版本得以解决。
 ## 引入
 
 ### 将JitPack存储库添加到您的项目中(项目根目录下build.gradle文件)
@@ -14,17 +15,7 @@ allprojects {
 ### 添加依赖
 [![](https://jitpack.io/v/shenbengit/TTSTool.svg)](https://jitpack.io/#shenbengit/TTSTool)
 ```gradle
-android {
-    ...
-    defaultConfig {
-        ...
-        ndk {
-            // 设置支持的SO库架构，仅支持armeabi-v7a、arm64-v8a，若想减小APK体积，可只引用对应的SO库架构
-            abiFilters 'armeabi-v7a'//, 'arm64-v8a'
-        }
-    }
-}
-
+//仅支持armeabi-v7a。
 dependencies {
     implementation 'com.github.shenbengit:TTSTool:Tag'
 }
@@ -64,11 +55,10 @@ dependencies {
 /**
   * 必须在主进程初始化
   * @param context
-  * @param appId 
   * @param isFemaleVoice 是否是女声，true:女声，false:男声
   * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
   */
-TTSManager.getInstance().init(context: Context, appId: String, isFemaleVoice: Boolean = true, listener: InitListener? = null)
+TTSManager.getInstance().init(context: Context, isFemaleVoice: Boolean = true, listener: InitListener? = null)
 
 /**
   * 开始合成
@@ -103,10 +93,9 @@ TTSManager.getInstance().setSpeechStatusListener(listener: SpeechStatusListener?
 /**
   * 必须在主进程初始化
   * @param context
-  * @param appId 
   * @param isFemaleVoice 是否是女声，true:女声，false:男声
   */
-initTTS(context: Context, appId: String, isFemaleVoice: Boolean = true, listener: InitListener? = null)
+initTTS(context: Context, isFemaleVoice: Boolean = true, listener: InitListener? = null)
 
 /**
   * 开始合成
