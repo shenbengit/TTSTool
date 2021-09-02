@@ -75,21 +75,19 @@ class TTSManager private constructor() {
     /**
      * 必须在主进程初始化
      * @param context
-     * @param appId
      * @param isFemaleVoice 是否是女声，true:女声，false:男声
      * @param listener 初始化结果回调，成功：[ErrorCode.SUCCESS]
      */
     @JvmOverloads
     fun init(
         context: Context,
-        appId: String,
         isFemaleVoice: Boolean = true,
         listener: InitListener? = null
     ) {
         Setting.setLogLevel(Setting.LOG_LEVEL.none)
         SpeechUtility.createUtility(
             context,
-            "${SpeechConstant.APPID}=${appId},${SpeechConstant.ENGINE_MODE}=${SpeechConstant.MODE_AUTO}"
+            "${SpeechConstant.APPID}=59e80f31,${SpeechConstant.ENGINE_MODE}=${SpeechConstant.MODE_AUTO}"
         )
         mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(context) { code ->
             listener?.onInit(code)

@@ -23,11 +23,10 @@ import com.iflytek.cloud.InitListener
 @JvmOverloads
 fun initTTS(
     context: Context,
-    appId: String,
     isFemaleVoice: Boolean = true,
     listener: InitListener? = null
 ) {
-    TTSManager.getInstance().init(context, appId, isFemaleVoice, listener)
+    TTSManager.getInstance().init(context, isFemaleVoice, listener)
 }
 
 fun setSpeechStatusListener(listener: TTSManager.SpeechStatusListener?) {
