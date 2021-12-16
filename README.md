@@ -1,6 +1,10 @@
 # TTSTool
 基于[讯飞离线语音SDK](https://www.xfyun.cn/doc/tts/online_tts/Android-SDK.html)封装快速实现TTS，支持设置男女声。
-由于科达讯飞离线语音体验版有有效期问题，降低了SDK版本得以解决。
+由于科达讯飞离线语音体验版有有效期问题，降低了SDK版本得以解决。目前还可以正常使用。
+## 注意事项：
+> 高版本Android会报[21002](https://www.xfyun.cn/document/error-code?code=21002)错误，目前测试**Android6.0**以下使用正常，解决这个问题要升级sdk版本；    
+> 可以先运行demo，如果不崩溃，那应该可以正常使用。
+
 ## 引入
 
 ### 将JitPack存储库添加到您的项目中(项目根目录下build.gradle文件)
